@@ -4,7 +4,7 @@ const Page = () => {
   
   return (
     <div className=''>
-      hello
+      hello hello
     </div>
   );
 }
