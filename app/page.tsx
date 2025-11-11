@@ -1,10 +1,11 @@
+import Test from '@/components/Test';
 import React from 'react';
 
 const Page = () => {
   
   return (
     <div className=''>
-      hello hello
+      <Test/>
     </div>
   );
 }
