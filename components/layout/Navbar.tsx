@@ -10,7 +10,7 @@ type NavLink = {
     icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
    const navLinks: NavLink[] = [
-    { href: '/dashboard', label: 'Dashboard', icon: HomeIcon },
+    { href: '/', label: 'Dashboard', icon: HomeIcon },
     { href: '/device-registry', label: 'Registered Devices', icon: Ticket}, 
     { href: '/settings', label: 'Settings', icon: Settings }, 
 ];
