@@ -40,10 +40,10 @@ const LoginPage: React.FC = () => {
       redirect: false,
     });
 
-    if (res?.error) setError(res.error);
-    else router.push("/dashboard");
-    // Simulate a 2-second API call
     await new Promise(resolve => setTimeout(resolve, 2000));
+    if (res?.error) setError(res.error);
+    // Simulate a 2-second API call
+    else {console.log('ok'); router.push("/dashboard");}
     
     // Simulate a successful login
     setIsLoading(false);
@@ -60,10 +60,10 @@ const LoginPage: React.FC = () => {
     //   setIsLoading(false);
     // }
   };
-
+  
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-slate-200 p-4 sm:p-6 lg:p-8 font-sans">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300">
+    <main className="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
+      <div className="w-full max-w-md  rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300">
         
         {isSuccess ? ( 
           <div className="text-center">

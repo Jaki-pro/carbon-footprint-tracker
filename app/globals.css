@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: #F8F8F8;
+  background-color: #eefafa;
   color: hsl(var(--foreground));
   font-family: 'Inter', sans-serif;
   margin: 0;
