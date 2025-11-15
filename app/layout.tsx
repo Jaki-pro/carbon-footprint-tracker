@@ -14,10 +14,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = await getServerSession(authOptions); 
+  //sconst session = await getServerSession(authOptions); 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-red-500 `}>
         <SessionProvider >
           <Navbar />
           <main>
