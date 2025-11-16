@@ -12,7 +12,7 @@ type NavLink = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 const navLinks: NavLink[] = [
-  { href: '/', label: 'Dashboard', icon: HomeIcon },
+  { href: '/dashboard', label: 'Dashboard', icon: HomeIcon },
   { href: '/device-registry', label: 'Registered Devices', icon: Ticket },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
@@ -22,7 +22,7 @@ export default function Navbar() {
   console.log('session', session);
   return (
     <>
-      <header className=" shadow-sm rounded-lg p-4 ">
+      <header className=" rounded-lg p-4 ">
         <div className="flex justify-between items-center gap-8 mx-4">
           <Image
             src="/logo.png"
@@ -48,7 +48,7 @@ export default function Navbar() {
                 >
                   <link.icon className="h-5 w-5" />
                   {isLabel && (
-                    <span className="font-medium text-sm">{link.label}</span>
+                    <span className="font-medium p-1 text-sm">{link.label}</span>
                   )}
                 </Link>
               );
@@ -57,11 +57,13 @@ export default function Navbar() {
           {
             session.data?
             <div className="flex items-center gap-4">
-            <div className=" bg-white p-2 rounded-lg  gap-2 mr-2">
-              <span className="text-sm font-medium text-gray-700 mr-2">
-                {session.data?.user?.name}
-              </span> 
+            <div className="flex bg-white px-6 py-1 rounded-[100px] items-center gap-3 shadow">
+              <div className="">
+                <p className="font-medium text-gray-800">{session.data?.user?.name?.split(' ')[0]}</p>
+                <p className="text-xs text-gray-500">{session.data?.user?.email}</p>
+              </div>
             </div>
+
             <Button onClick={()=>signOut()} variant="secondary" size="md">
               Logout
             </Button>
