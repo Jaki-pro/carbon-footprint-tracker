@@ -11,7 +11,7 @@ const buttonVariants = cva(
       // --- Variant Styles ---
       variant: {
         primary:
-          'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 disabled:bg-blue-300',
+          'bg-[#046307] text-white hover:bg-[#035406]  disabled:bg-blue-300',
         secondary:
           'bg-white  border border-[#046307] hover:bg-blue-50 focus:ring-[#046307] disabled:border-blue-300 disabled:text-blue-300',
         danger:

@@ -10,7 +10,7 @@ export default function DashboardLayout({
     const sessin = useSession();
     console.log(sessin, '---------->>>>>>>');
     return (
-        <div>
+        <div className='mx-4'>
             {children}
         </div>
     );
