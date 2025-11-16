@@ -1,18 +1,34 @@
 'use client";'
 import React, { useState } from "react";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import ActivityModal from "../ui/ActivityModal";
+import { Plus } from "lucide-react";
+const userDevices = [
+  { deviceId: "Device001", deviceName: "Living Room Sensor" },
+  { deviceId: "Device002", deviceName: "Kitchen Sensor" },
+  { deviceId: "Device003", deviceName: "Bedroom Sensor" },
+];
 const DashboardHeader = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <div>
-      <header className="bg-white shadow-sm rounded-lg p-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4"> 
-          <button
-            className="flex items-center gap-2 bg-red-600 text-white font-semibold text-sm px-4 py-2 rounded-md hover:bg-red-700 transition-colors cursor-pointer"
-          >
-            <span>Export Data</span>
-          </button>
-        </div>
-      </header>
-    </div>
+    <header className="bg-white shadow-sm rounded-lg p-4 ">
+      <div className="flex justify-between  items-center gap-4">
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          variant="primary">
+
+          <span className="flex"><Plus/>Add new Activity</span>
+        </Button>
+        <Button
+          variant="secondary">
+          <span>Export Activities</span>
+        </Button>
+
+
+      </div>
+      <ActivityModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} />
+    </header>
   );
 };
 

@@ -1,11 +1,11 @@
-import Test from '@/components/Test';
+ 
 import React from 'react';
 
 const Page = () => {
   
   return (
-    <div className=''>
-      <Test/>
+    <div className=''> 
+      <h1>Welcome to Carbon Footprint Tracker</h1>
     </div>
   );
 }
