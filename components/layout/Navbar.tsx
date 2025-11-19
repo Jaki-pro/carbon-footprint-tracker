@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, Settings, Ticket } from "lucide-react";
+import { HomeIcon, LogOut, Settings, Ticket } from "lucide-react";
 import Button from "../ui/Button";
 import { signOut, useSession } from "next-auth/react";
 type NavLink = {
@@ -28,8 +28,7 @@ export default function Navbar() {
             src="/logo.png"
             alt="Cft Logo"
             width={75}
-            height={75}
-            priority
+            height={75} 
           />
           <div className="flex items-center space-x-1 bg-gray-200 p-1 rounded-xl">
             {navLinks.map((link) => {
@@ -64,8 +63,10 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Button onClick={()=>signOut()} variant="secondary" size="md">
-              Logout
+            <Button onClick={()=>signOut()} variant="danger" size="md">
+              <span className="flex gap-2"><LogOut/>
+              Logout</span>
+              
             </Button>
           </div>:
           <div>
