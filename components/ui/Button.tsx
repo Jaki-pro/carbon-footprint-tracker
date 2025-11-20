@@ -5,13 +5,13 @@ import { twMerge } from 'tailwind-merge';
 // Define the variants and sizes using cva
 const buttonVariants = cva(
   // Base classes applied to all buttons
-  'inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+  '',
   {
     variants: {
       // --- Variant Styles ---
       variant: {
         primary:
-          'bg-[#046307] text-white hover:bg-[#035406]  disabled:bg-blue-300',
+          'inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-xl shadow-sm hover:bg-emerald-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200',
         secondary:
           'bg-white  border border-[#046307] hover:bg-[#046307] hover:text-white focus:ring-[#046307] disabled:border-blue-300 disabled:text-blue-300',
         danger:

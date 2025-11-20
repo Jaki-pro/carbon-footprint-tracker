@@ -19,7 +19,7 @@ interface ModalProps {
 
 }
 
-const Modal: FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, isDeleting, isDeleteDisabled, isAdding, isRestoring, modalName, isDeactivating, isReapproving, isActivating, children }) => {
+const Modal: FC<ModalProps> = ({ isOpen, onClose, onConfirm, isAdding,modalName,children }) => {
 
     useEffect(() => {
         if (isOpen) {
@@ -32,9 +32,9 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, onConfirm, title, isDeleting, 
         };
     }, [isOpen]);
     if (!isOpen) return null;
-    if(isDeleting || isRestoring || isDeactivating || isActivating || isReapproving){
-        isDeleteDisabled = true;
-    }
+    // if(isDeleting || isRestoring || isDeactivating || isActivating || isReapproving){
+    //     isDeleteDisabled = true;
+    // }
     return (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 z-50 flex justify-center items-center p-4" onClick={onClose}>
             <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8" onClick={(e) => e.stopPropagation()}>

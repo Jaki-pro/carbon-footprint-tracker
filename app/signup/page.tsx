@@ -6,7 +6,7 @@ import { Eye, EyeOff, LoaderCircle, Check } from 'lucide-react';
 const SignUpPage: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [isSuccess] = useState(false);
     const [serverError, setServerError] = useState<string | null>(null);
     const router = useRouter();
     const {
@@ -14,7 +14,7 @@ const SignUpPage: React.FC = () => {
         handleSubmit,
         getValues,
         setError,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     }
         = useForm();
 

@@ -54,7 +54,8 @@ export async function GET(request: Request) {
       JOIN "EmissionFactors" e ON a.emission_factor_id = e.id
       WHERE a.user_id = $1
     `;
-
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const params: any[] = [userId];
     let paramIndex = 2;
 
@@ -78,7 +79,7 @@ export async function GET(request: Request) {
     const result = await pool.query(sql, params);
 
     return NextResponse.json(result.rows);
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('API Error GET /api/activities:', error);
     return NextResponse.json(
@@ -181,7 +182,7 @@ export async function POST(request: Request) {
       }, 
       { status: 201 }
     );
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('API Error POST /api/activities:', error);
     return NextResponse.json(
