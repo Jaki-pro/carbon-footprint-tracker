@@ -18,6 +18,8 @@ const buttonVariants = cva(
           'bg-orange-600 text-white hover:bg-orange-700 focus:ring-red-500 disabled:bg-red-300',
         ghost:
           'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500 disabled:text-blue-300',
+        ping:
+          'px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 transition-transform hover:scale-105 whitespace-nowrap'
       },
       // --- Size Styles ---
       size: {

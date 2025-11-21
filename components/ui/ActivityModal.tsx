@@ -2,15 +2,8 @@
 import { AppWindow, LeafyGreenIcon, Loader2, X } from 'lucide-react';
 import React, { useState, useEffect, Fragment } from 'react';
 import CustomSelect, { categoryIcons } from './CustomSelect';
+import { Category, EmissionFactor } from '@/types';
 
-type EmissionFactor = {
-  id: number;
-  name: string;
-  category: Category;
-  unit: string;
-};
-
-type Category = 'Transport' | 'Food' | 'Energy' | 'Waste';
 
 type FormData = {
   category: Category | '';

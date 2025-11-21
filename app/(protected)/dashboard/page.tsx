@@ -2,30 +2,33 @@
 import StatCard from '@/components/dashboard/StatCard';
 import React, { useEffect, useState } from 'react';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  PointElement,
-  LineElement,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement,
+    PointElement,
+    LineElement, 
 } from 'chart.js';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2'; 
+import { processActivityData } from '@/utils/processActivityData';
+import { Loader} from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 // --- Register ChartJS Components ---
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  PointElement,
-  LineElement
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement,
+    PointElement,
+    LineElement
 );
 type DashboardData = {
     stats: {
@@ -37,78 +40,72 @@ type DashboardData = {
     weeklyTrend: { date: string; total: number }[];
 };
 
-const Page = () => {
-    const [data, setData] = useState<DashboardData | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    useEffect(() => {
-        // Mock Data for visualization
-        const mockData: DashboardData = {
-            stats: { today: 12.5, week: 84.2, month: 342.8 },
-            byCategory: [
-                { category: 'Transport', total: 150 },
-                { category: 'Energy', total: 120 },
-                { category: 'Food', total: 80 },
-                { category: 'Waste', total: 30 }
-            ],
-            weeklyTrend: [
-                { date: 'Mon', total: 12 },
-                { date: 'Tue', total: 19 },
-                { date: 'Wed', total: 8 },
-                { date: 'Thu', total: 25 },
-                { date: 'Fri', total: 15 },
-                { date: 'Sat', total: 10 },
-                { date: 'Sun', total: 5 }
-            ]
-        };
-
-        setTimeout(() => {
-            setData(mockData);
-            setIsLoading(false);
-        }, 800);
-    }, []);
-
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                backgroundColor: '#1f2937',
-                padding: 12,
-                cornerRadius: 8,
-                displayColors: false,
-                titleFont: { size: 13 },
-                bodyFont: { size: 14, weight: 'bold' as const },
-            }
+const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { display: false },
+        tooltip: {
+            backgroundColor: '#1f2937',
+            padding: 12,
+            cornerRadius: 8,
+            displayColors: false,
+            titleFont: { size: 13 },
+            bodyFont: { size: 14, weight: 'bold' as const },
+        }
+    },
+    scales: {
+        y: {
+            beginAtZero: true,
+            grid: { display: true, color: '#f3f4f6', drawBorder: false },
+            ticks: { font: { size: 11 }, color: '#9ca3af' },
+            border: { display: false }
         },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: { display: true, color: '#f3f4f6', drawBorder: false },
-                ticks: { font: { size: 11 }, color: '#9ca3af' },
-                border: { display: false }
-            },
-            x: {
-                grid: { display: false },
-                ticks: { font: { size: 11 }, color: '#9ca3af' }
-            }
-        },
-    };
-    const doughnutOptions = {
+        x: {
+            grid: { display: false },
+            ticks: { font: { size: 11 }, color: '#9ca3af' }
+        }
+    },
+};
+const doughnutOptions = {
     responsive: true,
     maintainAspectRatio: false,
     cutout: '75%',
     plugins: {
-      legend: {
-        position: 'bottom' as const,
-        labels: { usePointStyle: true, padding: 20, font: { size: 12 }, color: '#4b5563' }
-      }
+        legend: {
+            position: 'bottom' as const,
+            labels: { usePointStyle: true, padding: 20, font: { size: 12 }, color: '#4b5563' }
+        }
     }
-  };
+};
 
+const Page = () => {
+    const [data, setData] = useState<DashboardData | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        const fetchEmissionFactors = async () => {
+            try {
+                const response = await fetch('/api/activities');
+                const data = await response.json();
+                const dashboardData = processActivityData(data);
+                setTimeout(() => {
+                    setData(dashboardData);
+                    setIsLoading(false);
+                }, 800);
+            } catch (error) {
+                console.error('Failed to fetch emission factors:', error);
+            } finally{
+                setIsLoading(false)
+            }
+        };
+        fetchEmissionFactors();
+    }, [])
+    if(isLoading) return <div className='flex h-screen items-center justify-center'><Loader/></div>
     return (
         <div className="flex-1 overflow-y-auto p-6 lg:p-8 scroll-smooth">
-            <div className="max-w-6xl mx-auto space-y-8">
+            <div className="max-w-full mx-auto space-y-8">
 
                 {/* Stats Row */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -201,9 +198,7 @@ const Page = () => {
                                 You've maintained a low carbon footprint for 3 days in a row. Check out our new recommendations to reduce your energy consumption even further.
                             </p>
                         </div>
-                        <button className="px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 transition-transform hover:scale-105 whitespace-nowrap">
-                            View Insights
-                        </button>
+                        <Button variant='ping' className='flex justify-center items-center'><span>View Insights</span></Button>
                     </div>
                     {/* Decorative circles */}
                     <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
