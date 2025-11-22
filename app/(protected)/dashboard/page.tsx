@@ -17,6 +17,7 @@ import { Bar, Doughnut } from 'react-chartjs-2';
 import { processActivityData } from '@/utils/processActivityData';
 import { Loader} from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { useUserStatus } from '@/context/UserStatusContext';
 
 // --- Register ChartJS Components ---
 ChartJS.register(
@@ -82,7 +83,7 @@ const doughnutOptions = {
 const Page = () => {
     const [data, setData] = useState<DashboardData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const {isNewUser, setIsNewUser} = useUserStatus();
     useEffect(() => {
         setIsLoading(true);
         const fetchEmissionFactors = async () => {
@@ -94,6 +95,7 @@ const Page = () => {
                     setData(dashboardData);
                     setIsLoading(false);
                 }, 800);
+            if(data?.length) setIsNewUser(false);
             } catch (error) {
                 console.error('Failed to fetch emission factors:', error);
             } finally{
@@ -101,7 +103,7 @@ const Page = () => {
             }
         };
         fetchEmissionFactors();
-    }, [])
+    }, [isNewUser])
     if(isLoading) return <div className='flex h-screen items-center justify-center'><Loader/></div>
     return (
         <div className="flex-1 overflow-y-auto p-6 lg:p-8 scroll-smooth">
@@ -198,7 +200,7 @@ const Page = () => {
                                 You've maintained a low carbon footprint for 3 days in a row. Check out our new recommendations to reduce your energy consumption even further.
                             </p>
                         </div>
-                        <Button variant='ping' className='flex justify-center items-center'><span>View Insights</span></Button>
+                        <Button variant={`ping`} className='flex justify-center items-center'><span>View Insights</span></Button>
                     </div>
                     {/* Decorative circles */}
                     <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
