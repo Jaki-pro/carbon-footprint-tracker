@@ -19,7 +19,9 @@ const buttonVariants = cva(
         ghost:
           'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500 disabled:text-blue-300',
         ping:
-          'px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 transition-transform hover:scale-105 whitespace-nowrap'
+          'px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 transition-transform hover:scale-105 whitespace-nowrap',
+        hot:
+          'relative inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-black text-white uppercase tracking-widest bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-800 bg-[length:200%_auto] rounded-xl shadow-[0_0_20px_rgba(5,150,105,0.6)] ring-2 ring-emerald-400/50 hover:bg-right hover:scale-105 hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] active:scale-95 active:brightness-125 transition-all duration-500 animate-pulse'
       },
       // --- Size Styles ---
       size: {
@@ -46,7 +48,7 @@ const buttonVariants = cva(
 // Define the component's props interface
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   /**
    * If true, the button will show a loading spinner.
    */

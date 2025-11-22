@@ -13,7 +13,7 @@ type NavLink = {
 };
 const navLinks: NavLink[] = [
   { href: '/', label: 'Home', icon: HomeIcon },
-  { href: '/features', label: 'Features', icon: LucideFileChartColumnIncreasing },
+  { href: '/dashboard', label: 'Dashoard', icon: LucideFileChartColumnIncreasing },
   { href: '/about', label: 'About', icon: AlignHorizontalDistributeEndIcon }, 
   { href: '/contact', label: 'Contact', icon: Contact }, 
 ];
@@ -31,25 +31,26 @@ export default function Navbar() {
             width={75}
             height={75}
           />
-          <div className="flex items-center space-x-1 bg-gray-200 p-1 rounded-[100px]">
+          <div className="flex items-center space-x-1   p-1 rounded-xl">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               const isLabel = pathname === link.href;
+              if(link.href=='/dashboard' && session?.status!='authenticated') return null;
               return (
                 <Link
                   key={link.label}
                   href={link.href}
                   title={link.label}
-                  className={`flex mx-2 items-center gap-2 py-2 rounded-[100px] transition-all duration-300 ${!isLabel ? "px-3" : "px-4"
+                  className={`flex mx-2 items-center  gap-2 py-4 rounded-full transition-all duration-300 ${!isLabel ? "px-4" : "px-5"
                     } ${isActive
-                      ? "inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-[100px] shadow-sm hover:bg-emerald-700 hover:shadow-md  "
-                      : "text-gray-500 hover:bg-gray-200"
+                      ? "inline-flex items-center justify-center gap-2 px-5  text-sm font-semibold text-white bg-emerald-600 shadow-sm hover:bg-emerald-700 hover:shadow-md  "
+                      : "text-gray-500 hover:bg-gray-300 bg-gray-200"
                     } active:scale-95`}
                 >
-                  <link.icon className="h-5 w-5" />
                   {isLabel && (
-                    <span className="font-medium p-1 text-sm">{link.label}</span>
+                    <link.icon className="h-6 w-6" />
                   )}
+                  <span className="font-medium text-sm">{link.label}</span>
                 </Link>
               );
             })}
