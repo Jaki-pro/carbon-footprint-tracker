@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AlignHorizontalDistributeEndIcon, Contact, HomeIcon, LogOut, LucideFileChartColumnIncreasing, Settings, Ticket } from "lucide-react";
 import Button from "../ui/Button";
 import { signOut, useSession } from "next-auth/react";
-type NavLink = {
+export type NavLink = {
   href: string;
   label: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -33,8 +33,10 @@ export default function Navbar() {
           />
           <div className="flex items-center space-x-1   p-1 rounded-xl">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              const isLabel = pathname === link.href;
+              const isActive = link.href === '/'
+  ? pathname === '/'
+  : pathname.startsWith(link.href);
+              const isLabel = pathname.startsWith(link.href);
               if(link.href=='/dashboard' && session?.status!='authenticated') return null;
               return (
                 <Link
@@ -44,7 +46,7 @@ export default function Navbar() {
                   className={`flex mx-2 items-center  gap-2 py-4 rounded-full transition-all duration-300 ${!isLabel ? "px-4" : "px-5"
                     } ${isActive
                       ? "inline-flex items-center justify-center gap-2 px-5  text-sm font-semibold text-white bg-emerald-600 shadow-sm hover:bg-emerald-700 hover:shadow-md  "
-                      : "text-gray-500 hover:bg-gray-300 bg-gray-200"
+                      : "text-gray-500 hover:bg-gray-100 bg-white"
                     } active:scale-95`}
                 >
                   {isLabel && (
@@ -73,8 +75,9 @@ export default function Navbar() {
                 </Button>
               </div> :
               <div>
-                <Link href="/login" className="text-white bg-[#046307] px-4 py-2 rounded-lg hover:bg-green-700 active:scale-95 transition-all">
-                  Login
+                <Link href="/login" className="">
+                  <Button variant='primary'>Login</Button>
+                  
                 </Link>
               </div>
           }
