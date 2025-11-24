@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AppWindow, LeafyGreenIcon, Loader2, X } from 'lucide-react';
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, cache } from 'react';
 import CustomSelect, { categoryIcons } from './CustomSelect';
 import { Category, EmissionFactor } from '@/types';
+import { useRouter } from 'next/navigation';
 
 
 type FormData = {
@@ -39,7 +40,7 @@ export default function ActivityModal({ isOpen, onClose }: ActivityModalProps) {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [emissionFactors, setEmissionFactors] = useState<EmissionFactor[]>([]);
-
+  const router = useRouter()
   const categoryOptions: CustomSelectOption[] = categories.map((cat) => ({
     value: cat,
     label: cat,
@@ -62,7 +63,7 @@ export default function ActivityModal({ isOpen, onClose }: ActivityModalProps) {
   useEffect(() => {
     const fetchEmissionFactors = async () => {
       try {
-        const response = await fetch('/api/emission-factors');
+        const response = await fetch('/api/emission-factors', {cache:'force-cache'});
         const data = await response.json();
         setEmissionFactors(data);
       } catch (error) {
@@ -110,7 +111,7 @@ export default function ActivityModal({ isOpen, onClose }: ActivityModalProps) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage(null);
@@ -127,14 +128,19 @@ export default function ActivityModal({ isOpen, onClose }: ActivityModalProps) {
         }),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      if (!response.ok) throw new Error("Request failed");
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Request failed");
+      }
 
       setMessage({ type: "success", text: "Success! Your activity has been logged." });
-      setTimeout(() => onClose(), 2000);
+      
+      // --- CRITICAL STEP: Refresh Server Data ---
+      router.refresh(); 
+
+      setTimeout(() => onClose(), 1500);
     } catch (error: any) {
-      setMessage({ type: "error", text: error });
+      setMessage({ type: "error", text: error.message || "An error occurred" });
     } finally {
       setIsLoading(false);
     }
