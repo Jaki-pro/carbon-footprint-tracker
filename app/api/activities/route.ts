@@ -11,81 +11,68 @@ interface AddActivityRequest {
   notes?: string;
 }
 
-// --- GET: Fetch Activity History ---
+// --- GET: Fetch History with Filters ---
 export async function GET(request: Request) {
   try {
-    // 1. Security: Check authentication
     const session = await getServerSession(authOptions);
-    
-    if (!session || !session.user || !session.user.email) {
+    if (!session || !session.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 2. Get User ID
-    const userResult = await pool.query(
-      'SELECT id FROM "Users" WHERE email = $1',
-      [session.user.email]
-    );
-
-    if (userResult.rows.length === 0) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
+    const userResult = await pool.query('SELECT id FROM "Users" WHERE email = $1', [session.user.email]);
+    if (userResult.rows.length === 0) return NextResponse.json({ error: 'User not found' }, { status: 404 });
     const userId = userResult.rows[0].id;
 
-    // 3. Parse Query Parameters (Date Filtering)
     const { searchParams } = new URL(request.url);
-    const fromDate = searchParams.get('from');
-    const toDate = searchParams.get('to');
+    const from = searchParams.get('from');
+    const to = searchParams.get('to');
+    const category = searchParams.get('category');
 
-    // 4. Build Dynamic SQL Query
-    // We JOIN with EmissionFactors to get the name, category, and unit for display
     let sql = `
       SELECT 
         a.id, 
+        a.activity_date, 
         a.value, 
         a.co2_emitted, 
-        a.activity_date, 
         a.notes,
-        e.name AS activity_name, 
-        e.category, 
-        e.unit
+        e.name as activity_name,
+        e.category,
+        e.unit,
+        e.factor -- Needed for frontend optimistic updates if desired
       FROM "Activities" a
       JOIN "EmissionFactors" e ON a.emission_factor_id = e.id
       WHERE a.user_id = $1
     `;
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const params: any[] = [userId];
     let paramIndex = 2;
 
-    // Add Date Filters if present
-    if (fromDate) {
+    if (from) {
       sql += ` AND a.activity_date >= $${paramIndex}`;
-      params.push(new Date(fromDate));
+      params.push(from);
       paramIndex++;
     }
 
-    if (toDate) {
+    if (to) {
       sql += ` AND a.activity_date <= $${paramIndex}`;
-      params.push(new Date(toDate));
+      params.push(to);
       paramIndex++;
     }
 
-    // Order by newest first
+    if (category && category !== 'All') {
+        sql += ` AND e.category = $${paramIndex}`;
+        params.push(category);
+        paramIndex++;
+    }
+
     sql += ` ORDER BY a.activity_date DESC`;
 
-    // 5. Execute pool.query
     const result = await pool.query(sql, params);
-
     return NextResponse.json(result.rows);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   } catch (error: any) {
-    console.error('API Error GET /api/activities:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error', details: error.message },
-      { status: 500 }
-    );
+    console.error("History API Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
