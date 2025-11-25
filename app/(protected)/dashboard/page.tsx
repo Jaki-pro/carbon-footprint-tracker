@@ -7,14 +7,14 @@ import { processActivityData } from '@/utils/processActivityData';
 import { redirect } from 'next/navigation';
 import { Loader } from 'lucide-react';
 import DashboardClient from '@/components/dashboard/DashboardClient';
+import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 
-export const getActivitiesByUser = async (userId: number) => {
+const getActivitiesByUser = async (userId: number) => {
 
-  const getCachedActivities = unstable_cache(
+  'use cache'
+  cacheTag('activities');
 
-    async (userId: number) => {
-
-      const sql = `
+  const sql = `
       SELECT
         a.id,
         a.activity_date,
@@ -29,17 +29,12 @@ export const getActivitiesByUser = async (userId: number) => {
       WHERE a.user_id = $1
       ORDER BY a.activity_date DESC
     `;
-      const result = await pool.query(sql, [userId]);
-      return result.rows.map(row => ({
-        ...row,
-        activity_date: new Date(row.activity_date).toISOString(),
-      }));
-    },
-    ['user-activities-data'],
-    { tags: ['activities'] } 
-  );
+  const result = await pool.query(sql, [userId]);
+  return result.rows.map(row => ({
+    ...row,
+    activity_date: new Date(row.activity_date).toISOString(),
+  }));
 
-  return getCachedActivities(userId);
 };
 
 export default async function Page() {
