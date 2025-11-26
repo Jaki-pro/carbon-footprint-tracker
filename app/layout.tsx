@@ -1,10 +1,9 @@
-'use client';
-import type { Metadata } from "next";
+'use client'; 
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar"; 
-import { getServerSession } from "next-auth";
+import Navbar from "@/components/layout/Navbar";  
 import { SessionProvider } from "next-auth/react";
+import { UserStatusProvider } from "@/context/UserStatusContext";
 const inter = Inter({ subsets: ["latin"] });
 
 
@@ -21,7 +20,7 @@ export default function RootLayout({
         <SessionProvider >
           <Navbar />
           <main>
-            {children}
+            <UserStatusProvider>{children}</UserStatusProvider>
           </main>
         </SessionProvider>
       </body>

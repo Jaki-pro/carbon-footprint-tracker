@@ -5,19 +5,23 @@ import { twMerge } from 'tailwind-merge';
 // Define the variants and sizes using cva
 const buttonVariants = cva(
   // Base classes applied to all buttons
-  'inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+  '',
   {
     variants: {
       // --- Variant Styles ---
       variant: {
         primary:
-          'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 disabled:bg-blue-300',
+          'inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-xl shadow-sm hover:bg-emerald-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200',
         secondary:
-          'bg-white  border border-[#046307] hover:bg-blue-50 focus:ring-[#046307] disabled:border-blue-300 disabled:text-blue-300',
+          'bg-white  border border-[#046307] hover:bg-[#046307] hover:text-white focus:ring-[#046307] disabled:border-blue-300 disabled:text-blue-300',
         danger:
-          'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:bg-red-300',
+          'bg-orange-600 text-white hover:bg-orange-700 focus:ring-red-500 disabled:bg-red-300',
         ghost:
           'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500 disabled:text-blue-300',
+        ping:
+          'px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 transition-transform hover:scale-105 whitespace-nowrap',
+        hot:
+          'relative inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-black text-white uppercase tracking-widest bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-800 bg-[length:200%_auto] rounded-xl shadow-[0_0_20px_rgba(5,150,105,0.6)] ring-2 ring-emerald-400/50 hover:bg-right hover:scale-105 hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] active:scale-95 active:brightness-125 transition-all duration-500 animate-pulse'
       },
       // --- Size Styles ---
       size: {
@@ -44,7 +48,7 @@ const buttonVariants = cva(
 // Define the component's props interface
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   /**
    * If true, the button will show a loading spinner.
    */
