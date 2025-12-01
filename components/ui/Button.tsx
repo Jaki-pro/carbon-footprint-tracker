@@ -13,7 +13,7 @@ const buttonVariants = cva(
         primary:
           'inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-xl shadow-sm hover:bg-emerald-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200',
         secondary:
-          'bg-white  border border-[#046307] hover:bg-[#046307] hover:text-white focus:ring-[#046307] disabled:border-blue-300 disabled:text-blue-300',
+          "bg-secondary  text-secondary-foreground shadow-xs hover:bg-secondary/80 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-[0_2px_10px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-[#00A4E6]/70 focus:border-[#00A4E6] transition-all cursor-pointer appearance-none relative text-left flex items-center",
         danger:
           'bg-orange-600 text-white hover:bg-orange-700 focus:ring-red-500 disabled:bg-red-300',
         ghost:
