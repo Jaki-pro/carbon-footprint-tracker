@@ -140,7 +140,7 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
                                 options={doughnutOptions}
                             />
                             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                <span className="text-3xl font-bold text-gray-800">{data?.stats.month.toFixed(0)}</span>
+                                <span className="text-3xl font-bold text-gray-800">{data?.byCategory?.reduce((acc, item) => acc + (item.total ?? 0), 0).toFixed(2) ?? 0}</span>
                                 <span className="text-xs text-gray-400 uppercase font-semibold">Total kg</span>
                             </div>
                         </div>

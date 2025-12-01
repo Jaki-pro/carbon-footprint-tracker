@@ -13,6 +13,7 @@ import {
   Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { downloadCSV } from '@/utils/downloadCSV';
 
 // --- Register ChartJS ---
 ChartJS.register(
@@ -282,7 +283,7 @@ export default function ActivityHistoryPage() {
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Activity History</h1>
             <p className="text-slate-500 mt-1">View and analyze your past carbon emissions.</p>
           </div>
-          <button className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all">
+          <button onClick={()=>downloadCSV("carbon-footprint.csv", activities)} className="inline-flex cursor-pointer items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all">
             <DownloadIcon /> Export Data
           </button>
         </div>
