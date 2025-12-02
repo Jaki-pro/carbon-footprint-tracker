@@ -1,4 +1,4 @@
-import { HistoryIcon, LayoutDashboardIcon, LucideBadgeRussianRuble, SettingsIcon } from 'lucide-react';
+import { HistoryIcon, LayoutDashboardIcon, LucideBadgeRussianRuble, PanelTopDashedIcon, SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { NavLink } from '../layout/Navbar';
@@ -8,6 +8,7 @@ const siderbarLinks: NavLink[] = [
     { href: '/dashboard', label: 'Dashoard', icon: LayoutDashboardIcon },
     { href: '/dashboard/activity-history', label: 'Activity History', icon: HistoryIcon },
     { href: '/dashboard/leaderboard', label: 'Leaderboard', icon: LucideBadgeRussianRuble },
+    { href: '/dashboard/todos', label: 'Todos', icon: PanelTopDashedIcon },
 ];
 const SidebarItem = ({ icon, href = "/dashboard", label, active = false }: { icon: React.ReactNode, href?: string, label: string, active?: boolean }) => {
     const path = usePathname();
