@@ -84,7 +84,7 @@ export default function TodosPage() {
 
   return (
     <div className="min-h-screen p-6 lg:p-8 text-slate-900 font-sans">
-      <div className="max-w-4xl mx-auto space-y-8">
+      <div className="   mx-auto space-y-8">
         
         {/* Header Section */}
         <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
