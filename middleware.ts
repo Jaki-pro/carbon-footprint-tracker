@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
   if (!isDashboardRoute) {
     return NextResponse.next();
   }
-  let session =
+  const session =
     req.cookies.get("__Secure-next-auth.session-token")?.value ||
     req.cookies.get("next-auth.session-token")?.value;
 

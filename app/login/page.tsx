@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, LoaderCircle, Check } from 'lucide-react'; 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Button from '@/components/ui/Button';
+import Link from 'next/link';
  
 type LoginFormData = {
   email: string;
@@ -44,11 +46,11 @@ const LoginPage: React.FC = () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     if (res?.error) setError(res.error);
     // Simulate a 2-second API call
-    else {console.log('ok'); router.push("/dashboard");}
-    
+    else {console.log('ok'); router.push("/dashboard");
+    setIsSuccess(true);}
+     setIsLoading(false);
     // Simulate a successful login
-    setIsLoading(false);
-    setIsSuccess(true);
+    
     
     // --- Simulate an API Error (Example) ---
     // try {
@@ -61,7 +63,7 @@ const LoginPage: React.FC = () => {
     //   setIsLoading(false);
     // }
   };
-  
+  console.log(error, "errror");
   return (
     <main className="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8 font-sans">
       <div className="w-full max-w-md  rounded-2xl shadow-xl p-8 sm:p-10 transition-all duration-300">
@@ -170,9 +172,9 @@ const LoginPage: React.FC = () => {
                   )}
                 </div>
  
-                <button
+                <Button
                   type="submit"
-                  className="relative w-full rounded-lg bg-[#046307] px-5 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#034f06] focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="relative w-full "
                 >
                   {isLoading && (
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -182,8 +184,10 @@ const LoginPage: React.FC = () => {
                   <span className={isLoading ? 'invisible' : 'visible'}>
                     Sign In
                   </span>
-                </button>
+                </Button>
+                <p>Dont have an account? <Link className='text-blue-500' href={'/signup'}>Signup</Link> </p>
               </fieldset>
+              {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
             </form>
           </>
         )}

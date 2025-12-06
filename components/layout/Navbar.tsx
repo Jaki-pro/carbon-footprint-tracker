@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AlignHorizontalDistributeEndIcon, Contact, HomeIcon, LogOut, LucideFileChartColumnIncreasing, Settings, Ticket } from "lucide-react";
+import { AlignHorizontalDistributeEndIcon, Contact, HomeIcon, LogOut, LucideFileChartColumnIncreasing } from "lucide-react";
 import Button from "../ui/Button";
 import { signOut, useSession } from "next-auth/react";
 export type NavLink = {
@@ -14,8 +14,8 @@ export type NavLink = {
 const navLinks: NavLink[] = [
   { href: '/', label: 'Home', icon: HomeIcon },
   { href: '/dashboard', label: 'Dashoard', icon: LucideFileChartColumnIncreasing },
-  { href: '/about', label: 'About', icon: AlignHorizontalDistributeEndIcon }, 
-  { href: '/contact', label: 'Contact', icon: Contact }, 
+  { href: '/about', label: 'About', icon: AlignHorizontalDistributeEndIcon },
+  { href: '/contact', label: 'Contact', icon: Contact },
 ];
 export default function Navbar() {
   const pathname = usePathname();
@@ -34,22 +34,21 @@ export default function Navbar() {
           <div className="flex items-center space-x-1   p-1 rounded-xl">
             {navLinks.map((link) => {
               const isActive = link.href === '/'
-  ? pathname === '/'
-  : pathname.startsWith(link.href);
-              const isLabel = pathname.startsWith(link.href);
-              if(link.href=='/dashboard' && session?.status!='authenticated') return null;
+                ? pathname === '/'
+                : (pathname.startsWith(link.href) && pathname !== '/'); 
+              if (link.href == '/dashboard' && session?.status != 'authenticated') return null;
               return (
                 <Link
                   key={link.label}
                   href={link.href}
                   title={link.label}
-                  className={`flex mx-2 items-center  gap-2 py-4 rounded-full transition-all duration-300 ${!isLabel ? "px-4" : "px-5"
+                  className={`flex mx-2 items-center  gap-2 py-4 rounded-full transition-all duration-300 ${!isActive ? "px-4" : "px-5"
                     } ${isActive
                       ? "inline-flex items-center justify-center gap-2 px-5  text-sm font-semibold text-white bg-emerald-600 shadow-sm hover:bg-emerald-700 hover:shadow-md  "
                       : "text-gray-500 hover:bg-gray-100 bg-white"
                     } active:scale-95`}
                 >
-                  {isLabel && (
+                  {isActive && (
                     <link.icon className="h-6 w-6" />
                   )}
                   <span className="font-medium text-sm">{link.label}</span>
@@ -77,7 +76,7 @@ export default function Navbar() {
               <div>
                 <Link href="/login" className="">
                   <Button variant='primary'>Login</Button>
-                  
+
                 </Link>
               </div>
           }

@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, LoaderCircle, Check } from 'lucide-react';
- import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Button from '@/components/ui/Button';
 const SignUpPage: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,23 +25,26 @@ const SignUpPage: React.FC = () => {
         setServerError(null);
         const { name, email, password } = getValues();
         try {
-            
+
             const res = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password, name }),
             });
-              if (res.ok) {
-                router.replace('/login');
+            if (res.ok) {
+                router.replace('/dashboard');
             } else {
                 const data = await res.json();
                 throw new Error(data.error || "Signup failed");
-              }
+            }
+            setIsLoading(false);
         } catch (error) {
             setError("root.serverError", {
                 type: "server",
                 message: (error as Error).message || "Server error occurred",
             });
+        } finally{
+            setIsLoading(false);
         }
 
     };
@@ -180,9 +185,9 @@ const SignUpPage: React.FC = () => {
                                 </div>
 
                                 {/* --- Submit Button --- */}
-                                <button
+                                <Button
                                     type="submit"
-                                    className="relative w-full rounded-lg bg-[#046307] px-5 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#034f06] focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="relative w-full"
                                 >
                                     {isLoading && (
                                         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -193,8 +198,12 @@ const SignUpPage: React.FC = () => {
                                     <span className={isLoading ? 'invisible' : 'visible'}>
                                         Create Account
                                     </span>
-                                </button>
+                                </Button>
+                                <p>Already have an account? <Link className='text-blue-500' href={'/login'}>Login</Link> </p>
                             </fieldset>
+                            {errors.root?.serverError && (
+                                <p className="mt-4 text-sm text-red-600">{errors.root.serverError.message}</p>
+                            )}
                         </form>
                     </>
                 )}

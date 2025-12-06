@@ -76,7 +76,7 @@ export default function App() {
   const restOfUsers = users.slice(3);
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 lg:p-8 font-sans text-slate-900 pb-24">
+    <div className="min-h-screen p-6 lg:p-8 font-sans text-slate-900 pb-24">
       <div className="mx-auto space-y-8">
         
         {/* Header */}

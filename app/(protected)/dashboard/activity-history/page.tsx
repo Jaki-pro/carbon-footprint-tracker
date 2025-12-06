@@ -146,7 +146,7 @@ export default function ActivityHistoryPage() {
   };
 
   const sortedActivities = useMemo(() => {
-    let sortableItems = [...activities]; 
+    const sortableItems = [...activities]; 
     sortableItems.sort((a, b) => {
       if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
       if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
@@ -274,7 +274,7 @@ export default function ActivityHistoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 lg:p-8 font-sans text-slate-900">
+    <div className="min-h-screen  p-6 lg:p-8 font-sans text-slate-900">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* Header */}
