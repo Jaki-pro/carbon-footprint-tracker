@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { NavLink } from '../layout/Navbar';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const siderbarLinks: NavLink[] = [
     { href: '/dashboard', label: 'Dashoard', icon: LayoutDashboardIcon },
@@ -11,7 +12,7 @@ const siderbarLinks: NavLink[] = [
     { href: '/dashboard/todos', label: 'Todos', icon: PanelTopDashedIcon },
 ];
 const SidebarItem = ({ icon, href = "/dashboard", label, active = false }: { icon: React.ReactNode, href?: string, label: string, active?: boolean }) => {
-    const path = usePathname();
+    const path = usePathname(); 
     active = href===path;
     return <Link href={href || "#"} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${active ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`}>
         <div className={`${active ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600'}`}>
@@ -25,6 +26,7 @@ const LeafOutline = () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 2
 
 
 const Sidebar = ({ sidebarOpen }: { sidebarOpen: boolean }) => {
+    const session = useSession();
     return (
         <aside className={`rounded-tr-lg fixed lg:sticky top-0 left-0 z-30 h-screen w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
             <div className="p-6 flex items-center gap-3 border-b border-gray-100 h-20">
@@ -46,7 +48,7 @@ const Sidebar = ({ sidebarOpen }: { sidebarOpen: boolean }) => {
                         JD
                     </div>
                     <div>
-                        <p className="text-sm font-semibold text-gray-900">John Doe</p>
+                        <p className="text-sm font-semibold text-gray-900">{session?.data?.user?.name}</p>
                         <p className="text-xs text-gray-500">Free Plan</p>
                     </div>
                 </div>
