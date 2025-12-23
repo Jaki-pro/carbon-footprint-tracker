@@ -13,6 +13,9 @@ pnpm dev
 # or
 bun dev
 ```
+![bcard](https://wqm-dev.gizan.tech/settings.svg)
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
