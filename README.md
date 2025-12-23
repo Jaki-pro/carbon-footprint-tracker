@@ -13,7 +13,7 @@ pnpm dev
 # or
 bun dev
 ```
-![bcard](https://wqm-dev.gizan.tech/settings.svg)
+
 
 
 
